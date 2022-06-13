@@ -40,21 +40,9 @@ echo_error(){
 }
 
 #--------------------------------------
-# check
+# etc
 #--------------------------------------
 
-check_input(){
-    case "$1" in
-    "")
-        echo_error "Youtube APK is not defined."
-        ;;
-    *.apk)
-        return
-        ;;
-    *)
-        echo_error "'$1' is not an APK file" "Make sure to run './install.sh [youtube.apk]'"
-    esac
-}
 check_file() {
     local file=$1
 
@@ -62,10 +50,21 @@ check_file() {
         echo_error "'$file' not found." "Make sure to run './download' first"
     fi
 }
-
-#--------------------------------------
-# etc
-#--------------------------------------
+check_input(){
+    case "$1" in
+    "")
+        echo_error "Wrong command." "Make sure you run './install.sh [apk]'"
+        ;;
+    *.apk)
+        if [ ! -e "$1" ]; then
+            echo_error "'$1' not found."
+        fi
+        return
+        ;;
+    *)
+        echo_error "'$1' is not a valid input"
+    esac
+}
 
 select_device(){
     local -n list=$1
