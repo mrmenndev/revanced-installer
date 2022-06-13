@@ -4,19 +4,33 @@ set -e
 #--
 TEMP_DIR="/tmp/revanced-installer"
 
-#--
+#--revanced
 REVANCED_PATCHES_URL=\
 "https://github.com/revanced/revanced-patches/releases/download/v1.2.0/revanced-patches-1.2.0.jar"
 REVANCED_INTEGRATION_URL=\
 "https://github.com/revanced/revanced-integrations/releases/download/v0.7.0/app-release-unsigned.apk"
 REVANCED_CLI_URL=\
 "https://github.com/mrmenndev/revanced-installer/releases/download/revanced-cli/revanced-cli-1.3.0-all.jar"
-#--
-ADB_URL=\
-"https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
 
-adb_zip="$TEMP_DIR/platform-tools-latest-linux.zip"
+
+#--adb
 adb_file="$TEMP_DIR/platform-tools/adb"
+
+platform=$(uname -s)
+
+case "$platform" in
+Darwin)
+    ADB_URL="https://dl.google.com/android/repository/platform-tools-latest-darwin.zip"
+    adb_zip="$TEMP_DIR/platform-tools-latest-darwin.zip"
+    ;;
+Linux)
+    ADB_URL="https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
+    adb_zip="$TEMP_DIR/platform-tools-latest-linux.zip"
+    ;;
+*)
+    echo_error "'$platform' not supported"
+    ;;
+esac
 
 #======================================
 # Functions
@@ -49,12 +63,15 @@ echo_error(){
 #--------------------------------------
 
 download(){
-    wget -N --no-verbose --show-progress --directory-prefix "$TEMP_DIR" "$1"
+    wget --no-verbose --show-progress --directory-prefix "$TEMP_DIR" "$1"
 }
 
 #======================================
 # Script
 #======================================
+
+echo_step "Cleanup '$TEMP_DIR'"
+rm -rf "$TEMP_DIR"
 
 #--------------------------------------
 # adb
@@ -65,9 +82,9 @@ download "$ADB_URL"
 
 echo_step "Extract adb"
 pushd "$TEMP_DIR"
-# extract using java jar
 jar -xf "$adb_zip"
 popd
+
 # set permission
 chmod +x "$adb_file"
 

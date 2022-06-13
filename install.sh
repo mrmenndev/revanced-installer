@@ -98,7 +98,7 @@ check_file "$revanced_integration"
 
 echo_step "Find adb device"
 # list
-adb_output=$(adb devices | sed 's/List of devices attached//g'| awk '{
+adb_output=$("$adb_file" devices | sed 's/List of devices attached//g'| awk '{
     if ($1 != "") print $1
 }')
 # create array
@@ -108,7 +108,7 @@ mapfile -t device_list < <(printf "%s" "$adb_output")
 device_count=${#device_list[@]}
 case $device_count in
     "0")
-        echo_error "no device found"
+        echo_error "No device found"
         ;;
     "1")
         device=${device_list[0]}
@@ -119,8 +119,8 @@ case $device_count in
         ;;
 esac
 
-echo_step "Check device: '$device'"
-adb shell exit
+echo_step "Check device: $device"
+"$adb_file" shell exit
 
 #--------------------------------------
 # revanced
