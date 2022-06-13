@@ -12,12 +12,10 @@ REVANCED_INTEGRATION_URL=\
 REVANCED_CLI_URL=\
 "https://github.com/mrmenndev/revanced-installer/releases/download/revanced-cli/revanced-cli-1.3.0-all.jar"
 
-
 #--adb
-adb_file="$TEMP_DIR/platform-tools/adb"
+adb_exe="$TEMP_DIR/platform-tools/adb"
 
 platform=$(uname -s)
-
 case "$platform" in
 Darwin)
     ADB_URL="https://dl.google.com/android/repository/platform-tools-latest-darwin.zip"
@@ -86,7 +84,7 @@ jar -xf "$adb_zip"
 popd
 
 # set permission
-chmod +x "$adb_file"
+chmod +x "$adb_exe"
 
 #--------------------------------------
 # revanced

@@ -4,12 +4,14 @@ set -e
 #--
 TEMP_DIR="/tmp/revanced-installer"
 
+#--adb
+adb_exe="$TEMP_DIR/platform-tools/adb"
+
+#--revanced
 revanced_cli="$TEMP_DIR/revanced-cli-1.3.0-all.jar"
 revanced_patches="$TEMP_DIR/revanced-patches-1.2.0.jar"
 revanced_integration="$TEMP_DIR/app-release-unsigned.apk"
-revanced_apk="$TEMP_DIR/revanced.apk"
-
-adb_file="$TEMP_DIR/platform-tools/adb"
+revanced_output="$TEMP_DIR/revanced.apk"
 
 #======================================
 # Functions
@@ -87,7 +89,7 @@ check_input "$1"
 youtube_apk="$(realpath "$1")"
 
 # check if revanced files are downloaded
-check_file "$adb_file"
+check_file "$adb_exe"
 check_file "$revanced_cli"
 check_file "$revanced_patches"
 check_file "$revanced_integration"
@@ -98,7 +100,7 @@ check_file "$revanced_integration"
 
 echo_step "Find adb device"
 # list
-adb_output=$("$adb_file" devices | sed 's/List of devices attached//g'| awk '{
+adb_output=$("$adb_exe" devices | sed 's/List of devices attached//g'| awk '{
     if ($1 != "") print $1
 }')
 # create array
@@ -120,7 +122,7 @@ case $device_count in
 esac
 
 echo_step "Check device: $device"
-"$adb_file" shell exit
+"$adb_exe" shell exit
 
 #--------------------------------------
 # revanced
@@ -132,7 +134,7 @@ java -jar "$revanced_cli" --clean --install \
     -m "$revanced_integration" \
     --temp-dir "$TEMP_DIR/cache" \
     --apk "$youtube_apk" \
-    --out "$revanced_apk" \
+    --out "$revanced_output" \
     --deploy-on "$device"  \
     -i "microg-patch" \
     -i "minimized-playback" \
