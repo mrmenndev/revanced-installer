@@ -9,7 +9,7 @@ adb_exe="$TEMP_DIR/platform-tools/adb"
 
 #--revanced
 revanced_cli="$TEMP_DIR/revanced-cli-1.3.0-all.jar"
-revanced_patches="$TEMP_DIR/revanced-patches-1.2.0.jar"
+revanced_patches="$TEMP_DIR/revanced-patches-1.2.1.jar"
 revanced_integration="$TEMP_DIR/app-release-unsigned.apk"
 revanced_output="$TEMP_DIR/revanced.apk"
 
@@ -137,9 +137,10 @@ java -jar "$revanced_cli" --clean --install \
     --out "$revanced_output" \
     --deploy-on "$device"  \
     -i "microg-patch" \
+    -i "general-ads" \
+    -i "video-ads" \
+    -i "shorts-button" \
+    -i "disable-create-button" \
     -i "minimized-playback" \
     -i "old-quality-layout" \
-    -i "disable-create-button" \
-    -i "shorts-button" \
-    -i "general-ads" \
-    -i "video-ads"
+    -i "reels_player_overlay"
