@@ -23,7 +23,7 @@ Tested on `Linux` and on `MacOS`
 1. Download `./download.sh` and `./install.sh`
 
 ```
-wget "https://raw.githubusercontent.com/mrmenndev/revanced-installer/master/download.sh" && wget "https://raw.githubusercontent.com/mrmenndev/revanced-installer/master/install.sh"
+wget -N "https://raw.githubusercontent.com/mrmenndev/revanced-installer/master/download.sh" "https://raw.githubusercontent.com/mrmenndev/revanced-installer/master/install.sh"
 ```
 
 2. Make both scripts executable
