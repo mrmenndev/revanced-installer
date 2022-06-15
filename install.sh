@@ -136,7 +136,7 @@ java -jar "$revanced_cli" --clean --install \
     --apk "$youtube_apk" \
     --out "$revanced_output" \
     --deploy-on "$device"  \
-    -i "microg-patch" \
+    -i "microg-support" \
     -i "general-ads" \
     -i "video-ads" \
     -i "shorts-button" \
