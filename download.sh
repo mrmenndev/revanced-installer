@@ -82,7 +82,7 @@ rm -rf "$TEMP_DIR/platform-tools"
 # adb
 #--------------------------------------
 
-echo_step "Download adb"
+echo_step "[1/4] Download adb"
 download "$ADB_URL" "$adb_zip"
 
 echo_step "Extract adb"
@@ -97,13 +97,13 @@ popd
 # revanced
 #--------------------------------------
 
-echo_step "Download revanced-integration"
+echo_step "[2/4] Download revanced-integration"
 download "$REVANCED_INTEGRATION_URL" "$revanced_integration"
 
-echo_step "Download revanced-patches"
+echo_step "[3/4] Download revanced-patches"
 download "$REVANCED_PATCHES_URL" "$revanced_patches"
 
-echo_step "Download revanced-cli"
+echo_step "[4/4] Download revanced-cli"
 download "$REVANCED_CLI_URL" "$revanced_cli"
 
 #--------------------------------------
