@@ -8,8 +8,8 @@ TEMP_DIR="/tmp/revanced-installer"
 adb_exe="$TEMP_DIR/platform-tools/adb"
 
 #--revanced
-revanced_cli="$TEMP_DIR/revanced-cli-1.3.0-all.jar"
-revanced_patches="$TEMP_DIR/revanced-patches-1.2.1.jar"
+revanced_cli="$TEMP_DIR/revanced-cli-all.jar"
+revanced_patches="$TEMP_DIR/revanced-patches.jar"
 revanced_integration="$TEMP_DIR/app-release-unsigned.apk"
 revanced_output="$TEMP_DIR/revanced.apk"
 
@@ -31,8 +31,9 @@ echo_step(){
     printf "%s\n" "----------"
 }
 echo_error(){
-    printf "\033[1;31m%s\033[0m" "Error:"
-    printf " %s\n" "$1"
+    printf "%s\n" "----------"
+    printf "\033[1;31m%s\n\033[0m" "==> Error"
+    printf "%s\n" "$1"
     if [ "$2" != "" ];then
         printf "%s\n" "$2"
     fi

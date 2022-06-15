@@ -4,17 +4,19 @@ set -e
 #--
 TEMP_DIR="/tmp/revanced-installer"
 
+revanced_integration="$TEMP_DIR/app-release-unsigned.apk"
+revanced_patches="$TEMP_DIR/revanced-patches.jar"
+revanced_cli="$TEMP_DIR/revanced-cli-all.jar"
+
 #--revanced
-REVANCED_PATCHES_URL=\
-"https://github.com/revanced/revanced-patches/releases/download/v1.2.1/revanced-patches-1.2.1.jar"
 REVANCED_INTEGRATION_URL=\
 "https://github.com/revanced/revanced-integrations/releases/download/v0.8.0/app-release-unsigned.apk"
+REVANCED_PATCHES_URL=\
+"https://github.com/revanced/revanced-patches/releases/download/v1.2.1/revanced-patches-1.2.1.jar"
 REVANCED_CLI_URL=\
 "https://github.com/mrmenndev/revanced-installer/releases/download/revanced-cli/revanced-cli-1.3.0-all.jar"
 
 #--adb
-adb_exe="$TEMP_DIR/platform-tools/adb"
-
 platform=$(uname -s)
 case "$platform" in
 Darwin)
@@ -48,8 +50,9 @@ echo_step(){
     printf "%s\n" "----------"
 }
 echo_error(){
-    printf "\033[1;31m%s\033[0m" "Error:"
-    printf " %s\n" "$1"
+    printf "%s\n" "----------"
+    printf "\033[1;31m%s\n\033[0m" "==> Error"
+    printf "%s\n" "$1"
     if [ "$2" != "" ];then
         printf "%s\n" "$2"
     fi
@@ -61,43 +64,47 @@ echo_error(){
 #--------------------------------------
 
 download(){
-    wget --no-verbose --show-progress --directory-prefix "$TEMP_DIR" "$1"
+    local url="$1"
+    local file="$2"
+    
+    wget --no-verbose --show-progress -O "$file" "$url" 
 }
 
 #======================================
 # Script
 #======================================
 
-echo_step "Cleanup '$TEMP_DIR'"
-rm -rf "$TEMP_DIR"
+# prepare
+mkdir -p "$TEMP_DIR"
+rm -rf "$TEMP_DIR/platform-tools"
 
 #--------------------------------------
 # adb
 #--------------------------------------
 
 echo_step "Download adb"
-download "$ADB_URL"
+download "$ADB_URL" "$adb_zip"
 
 echo_step "Extract adb"
 pushd "$TEMP_DIR"
+# extract
 jar -xf "$adb_zip"
-popd
-
 # set permission
-chmod +x "$adb_exe"
+chmod +x "$TEMP_DIR/platform-tools/adb"
+popd
 
 #--------------------------------------
 # revanced
 #--------------------------------------
 
-echo_step "Download revanced-cli"
-download "$REVANCED_CLI_URL"
+echo_step "Download revanced-integration"
+download "$REVANCED_INTEGRATION_URL" "$revanced_integration"
 
 echo_step "Download revanced-patches"
-download "$REVANCED_PATCHES_URL"
+download "$REVANCED_PATCHES_URL" "$revanced_patches"
 
-echo_step "Download revanced-integration"
-download "$REVANCED_INTEGRATION_URL"
+echo_step "Download revanced-cli"
+download "$REVANCED_CLI_URL" "$revanced_cli"
 
 #--------------------------------------
 # success
