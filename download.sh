@@ -12,9 +12,9 @@ revanced_cli="$TEMP_DIR/revanced-cli-all.jar"
 REVANCED_INTEGRATION_URL=\
 "https://github.com/revanced/revanced-integrations/releases/download/v0.10.0/app-release-unsigned.apk"
 REVANCED_PATCHES_URL=\
-"https://github.com/revanced/revanced-patches/releases/download/v1.5.0/revanced-patches-1.5.0.jar"
+"https://github.com/revanced/revanced-patches/releases/download/v1.6.3/revanced-patches-1.6.3.jar"
 REVANCED_CLI_URL=\
-"https://github.com/revanced/revanced-cli/releases/download/v1.4.1/revanced-cli-1.3.0-all.jar"
+"https://github.com/revanced/revanced-cli/releases/download/v1.4.2/revanced-cli-1.4.2-all.jar"
 
 #--adb
 platform=$(uname -s)
