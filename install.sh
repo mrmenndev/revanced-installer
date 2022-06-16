@@ -139,8 +139,10 @@ java -jar "$revanced_cli" --clean --install \
     -i "microg-support" \
     -i "general-ads" \
     -i "video-ads" \
-    -i "shorts-button" \
+    -i "disable-shorts-button" \
     -i "disable-create-button" \
+    -i "hide-cast-button" \
     -i "minimized-playback" \
     -i "old-quality-layout" \
-    -i "reels_player_overlay"
+    -i "reels_player_overlay" \
+    -i "custom-branding"
