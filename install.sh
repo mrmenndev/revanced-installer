@@ -41,7 +41,6 @@ Linux)
     ;;
 esac
 
-
 #======================================
 # Functions
 #======================================
@@ -87,6 +86,7 @@ echo_error(){
 # check
 #--------------------------------------
 
+# input func
 check_file() {
     local file="$1"
 
@@ -97,6 +97,7 @@ check_file() {
     fi
 }
 
+# input + return func
 check_apk(){
     local path="$1"
 
@@ -115,6 +116,7 @@ check_apk(){
 # helper
 #--------------------------------------
 
+# input func
 download(){
     local url="$1"
     local file="$2"
@@ -122,6 +124,7 @@ download(){
     wget --no-verbose --show-progress -O "$file" "$url" 
 }
 
+# input + return func
 select_device(){
     local -n list=$1
 
@@ -214,6 +217,7 @@ adb_device(){
     adb_device="$device"
 }
 
+# input func
 start_revanced(){
     local apk="$1"
     local device="$2"
