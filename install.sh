@@ -15,9 +15,9 @@ REVANCED_PATCHES_URL=\
 REVANCED_CLI_URL=\
 "https://github.com/revanced/revanced-cli/releases/download/v1.4.2/revanced-cli-1.4.2-all.jar"
 
-REVANCED_CLI="$TEMP_DIR/revanced-cli-all.jar"
 REVANCED_PATCHES="$TEMP_DIR/revanced-patches.jar"
 REVANCED_INTEGRATION="$TEMP_DIR/app-release-unsigned.apk"
+REVANCED_CLI="$TEMP_DIR/revanced-cli-all.jar"
 REVANCED_OUTPUT="$TEMP_DIR/revanced.apk"
 
 #--------------------------------------
@@ -27,8 +27,8 @@ REVANCED_OUTPUT="$TEMP_DIR/revanced.apk"
 ADB_ZIP="$TEMP_DIR/platform-tools.zip"
 ADB_EXE="$TEMP_DIR/platform-tools/adb"
 adb_device=""
-
 platform=$(uname -s)
+
 case "$platform" in
 Darwin)
     ADB_URL="https://dl.google.com/android/repository/platform-tools-latest-darwin.zip"
@@ -52,10 +52,11 @@ esac
 echo_usage() {
     printf "Usage:\n"
     printf "    ./install.sh [apk] : Download and install ReVanced\n"
-    printf "Flags:\n"
+    printf "Options:\n"
     printf " -i | --install  [apk] : Only install ReVanced\n"
     printf "                         (Files need to be downloaded first)\n"
     printf " -d | --download       : Only download required files\n"
+    printf " -v | --version        : Show script version\n"
     printf " -h | --help           : Show command usage\n"
     exit 0
 }
@@ -155,7 +156,7 @@ start_download(){
     # extract
     jar -xf "$ADB_ZIP"
     # set permission
-    chmod +x "$TEMP_DIR/platform-tools/adb"
+    chmod +x "$ADB_EXE"
     popd
 
     echo_step "[2/4] Download revanced-integration"
@@ -247,17 +248,17 @@ start_revanced(){
 #======================================
 
 case "$1" in
-"" | "-h"| "--help")
+"" | "-h" | "--help")
     echo_usage
     ;;
 "-v" | "--version")
     printf "revanced-installer v%s\n" "$VERSION"
     printf "Platform: %s\n" "$platform"
     ;;
-"-d"| "--download")
+"-d" | "--download")
     start_download
     ;;
-"-i"| "--install")
+"-i" | "--install")
     youtube_apk=$(check_apk "$2")
     check_install
     adb_device
