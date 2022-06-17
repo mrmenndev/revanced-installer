@@ -42,7 +42,7 @@ Example:
 ./install.sh $HOME/Downloads/youtube_17.22.36.apk
 ```
 
-## Flags
+## Options
 
 `-i [apk]` or `--install [apk]`
 
