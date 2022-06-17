@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+VERSION="0.2.0"
 TEMP_DIR="/tmp/revanced-installer"
 
 #--------------------------------------
@@ -242,6 +243,10 @@ start_revanced(){
 case "$1" in
 "" | "-h"| "--help")
     echo_usage
+    ;;
+"-v" | "--version")
+    printf "revanced-installer v%s\n" "$VERSION"
+    printf "Platform: %s\n" "$platform"
     ;;
 "-d"| "--download")
     start_download
