@@ -252,15 +252,18 @@ case "$1" in
     start_download
     ;;
 "-i"| "--install")
-    check_install
     youtube_apk=$(check_apk "$2")
+    check_install
     adb_device
     start_revanced "$youtube_apk" "$adb_device"
     ;;
+-*)
+    echo_usage
+    ;;
 *)  
+    youtube_apk=$(check_apk "$1")
     start_download
     check_install
-    youtube_apk=$(check_apk "$1")
     adb_device
     start_revanced "$youtube_apk" "$adb_device"
     ;;
