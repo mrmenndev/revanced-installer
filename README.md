@@ -20,29 +20,45 @@ Tested on `Linux` and on `MacOS`
 
 ## Download
 
-1. Download `./download.sh` and `./install.sh`
+1. Download `./install.sh`
 
 ```
-wget -N "https://raw.githubusercontent.com/mrmenndev/revanced-installer/master/download.sh" "https://raw.githubusercontent.com/mrmenndev/revanced-installer/master/install.sh"
+wget -N "https://raw.githubusercontent.com/mrmenndev/revanced-installer/master/install.sh"
 ```
 
-2. Make both scripts executable
+2. Make script executable
 
 ```
-chmod +x download.sh install.sh
+chmod +x install.sh
 ```
 
 ## Usage
 
-1.  Run `./download.sh` to download a local adb copy and files from revanced
-2.  Run `./install.sh [youtube apk]` to actually install `ReVanced`
+Run `./install.sh [youtube apk]` to download all required files and install ReVanced
 
 Example:
 
 ```
-./download.sh
 ./install.sh $HOME/Downloads/youtube_17.22.36.apk
 ```
+
+## Flags
+
+`-i [apk]` or `--install [apk]`
+
+-   Only install ReVanced (Files need to be downloaded first)
+
+`-d` or `--download`
+
+-   Only download required files
+
+`-v` or `--version`
+
+-   Show script version
+
+`-h` or `--help`
+
+-   Show command usage
 
 # Windows
 
