@@ -1,17 +1,45 @@
 #!/usr/bin/env bash
 set -e
 
-#--
 TEMP_DIR="/tmp/revanced-installer"
 
-#--adb
-adb_exe="$TEMP_DIR/platform-tools/adb"
+#--------------------------------------
+# revanced
+#--------------------------------------
 
-#--revanced
-revanced_cli="$TEMP_DIR/revanced-cli-all.jar"
-revanced_patches="$TEMP_DIR/revanced-patches.jar"
-revanced_integration="$TEMP_DIR/app-release-unsigned.apk"
-revanced_output="$TEMP_DIR/revanced.apk"
+REVANCED_INTEGRATION_URL=\
+"https://github.com/revanced/revanced-integrations/releases/download/v0.10.0/app-release-unsigned.apk"
+REVANCED_PATCHES_URL=\
+"https://github.com/revanced/revanced-patches/releases/download/v1.6.3/revanced-patches-1.6.3.jar"
+REVANCED_CLI_URL=\
+"https://github.com/revanced/revanced-cli/releases/download/v1.4.2/revanced-cli-1.4.2-all.jar"
+
+REVANCED_CLI="$TEMP_DIR/revanced-cli-all.jar"
+REVANCED_PATCHES="$TEMP_DIR/revanced-patches.jar"
+REVANCED_INTEGRATION="$TEMP_DIR/app-release-unsigned.apk"
+REVANCED_OUTPUT="$TEMP_DIR/revanced.apk"
+
+#--------------------------------------
+# adb
+#--------------------------------------
+
+ADB_ZIP="$TEMP_DIR/platform-tools.zip"
+ADB_EXE="$TEMP_DIR/platform-tools/adb"
+adb_device=""
+
+platform=$(uname -s)
+case "$platform" in
+Darwin)
+    ADB_URL="https://dl.google.com/android/repository/platform-tools-latest-darwin.zip"
+    ;;
+Linux)
+    ADB_URL="https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
+    ;;
+*)
+    echo_error "Platform '$platform' not supported"
+    ;;
+esac
+
 
 #======================================
 # Functions
@@ -20,6 +48,16 @@ revanced_output="$TEMP_DIR/revanced.apk"
 #--------------------------------------
 # echo
 #--------------------------------------
+
+echo_usage() {
+    printf "Usage:\n"
+    printf "    ./install.sh [apk]: Download and install ReVanced\n"
+    printf "Flags:\n"
+    printf " -i | --install  [apk]: Only install ReVanced (Files need to be downloaded first)\n"
+    printf " -d | --download      : Only download required files\n"
+    printf " -h | --help          : Show command usage\n"
+    exit 0
+}
 
 echo_step(){
     printf "%s\n" "----------"
@@ -32,39 +70,53 @@ echo_step(){
 }
 echo_error(){
     printf "%s\n" "----------"
-    printf "\033[1;31m%s\n\033[0m" "==> Error"
-    printf "%s\n" "$1"
+    printf "\033[1;31m%s\033[0m%s\n" "==> Error " "$1"
     if [ "$2" != "" ];then
         printf "%s\n" "$2"
+    fi
+    if [ "$3" != "" ];then
+        printf "%s\n" "$3"
     fi
     exit 1
 }
 
 #--------------------------------------
-# etc
+# check
 #--------------------------------------
 
 check_file() {
-    local file=$1
+    local file="$1"
 
     if [ ! -e "$file" ]; then
-        echo_error "'$file' not found." "Make sure to run './download' first"
+        echo_error "'$file' not found" \
+        "Make sure to run './install.sh --download' first" \
+        "or run './install.sh [apk]'"
     fi
 }
-check_input(){
-    case "$1" in
-    "")
-        echo_error "Wrong command." "Make sure you run './install.sh [apk]'"
-        ;;
-    *.apk)
-        if [ ! -e "$1" ]; then
-            echo_error "'$1' not found."
-        fi
-        return
-        ;;
-    *)
-        echo_error "'$1' is not a valid input"
-    esac
+
+check_apk(){
+    local path="$1"
+
+    if [ ! -e "$path" ]; then
+        echo_error "'$path' not found"
+    fi
+
+    if [[ "$path" != *.apk ]]; then
+        echo_error "'$path' is not a valid APK"
+    fi
+
+    printf "%s" "$path"
+}
+
+#--------------------------------------
+# helper
+#--------------------------------------
+
+download(){
+    local url="$1"
+    local file="$2"
+    
+    wget --no-verbose --show-progress -O "$file" "$url" 
 }
 
 select_device(){
@@ -80,69 +132,131 @@ select_device(){
     printf "%s" "$device"
 }
 
+#--------------------------------------
+# download
+#--------------------------------------
+
+start_download(){
+    # prepare
+    mkdir -p "$TEMP_DIR"
+    rm -rf "$TEMP_DIR/platform-tools"
+
+    echo_step "[1/4] Download adb"
+    download "$ADB_URL" "$ADB_ZIP"
+
+    echo_step "Extract adb"
+    pushd "$TEMP_DIR"
+    # extract
+    jar -xf "$ADB_ZIP"
+    # set permission
+    chmod +x "$TEMP_DIR/platform-tools/adb"
+    popd
+
+    echo_step "[2/4] Download revanced-integration"
+    download "$REVANCED_INTEGRATION_URL" "$REVANCED_INTEGRATION"
+
+    echo_step "[3/4] Download revanced-patches"
+    download "$REVANCED_PATCHES_URL" "$REVANCED_PATCHES"
+
+    echo_step "[4/4] Download revanced-cli"
+    download "$REVANCED_CLI_URL" "$REVANCED_CLI"
+}
+
+#--------------------------------------
+# install
+#--------------------------------------
+
+check_install(){
+    check_file "$ADB_EXE"
+    check_file "$REVANCED_INTEGRATION"
+    check_file "$REVANCED_PATCHES"
+    check_file "$REVANCED_CLI"
+}
+
+adb_device(){
+    local adb_output
+    local device_list
+    local device_count
+    local device
+
+    echo_step "Start adb"
+    "$ADB_EXE" kill-server || true
+    "$ADB_EXE" start-server
+
+    echo_step "Find adb device"
+     # list devices
+    adb_output=$("$ADB_EXE" devices | sed 's/List of devices attached//g'| awk '{
+        if ($1 != "") print $1
+    }')
+    # create device array list
+    mapfile -t device_list < <(printf "%s" "$adb_output")
+    # get device number
+    device_count=${#device_list[@]}
+    case $device_count in
+        0)
+            echo_error "No device found"
+            ;;
+        1)
+            device=${device_list[0]}
+            ;;
+        *)
+            echo_step "Please select your device"
+            device=$(select_device device_list)
+            ;;
+    esac
+
+    echo_step "Check device: $device"
+    "$ADB_EXE" -s "$device" shell exit
+
+    adb_device="$device"
+}
+
+start_revanced(){
+    local apk="$1"
+    local device="$2"
+    
+    echo_step "Install revanced"
+    java -jar "$REVANCED_CLI" --clean --install \
+        -b "$REVANCED_PATCHES" \
+        -m "$REVANCED_INTEGRATION" \
+        --out "$REVANCED_OUTPUT" \
+        --temp-dir "$TEMP_DIR/cache" \
+        --apk "$apk" \
+        --deploy-on "$device"  \
+        -i "microg-support" \
+        -i "general-ads" \
+        -i "video-ads" \
+        -i "disable-shorts-button" \
+        -i "disable-create-button" \
+        -i "hide-cast-button" \
+        -i "minimized-playback" \
+        -i "old-quality-layout" \
+        -i "reels_player_overlay" \
+        -i "custom-branding"
+}
+
 #======================================
 # Script
 #======================================
 
-# check youtube apk
-check_input "$1"
-youtube_apk="$(realpath "$1")"
-
-# check if revanced files are downloaded
-check_file "$adb_exe"
-check_file "$revanced_cli"
-check_file "$revanced_patches"
-check_file "$revanced_integration"
-
-#--------------------------------------
-# adb
-#--------------------------------------
-
-echo_step "Find adb device"
-# list
-adb_output=$("$adb_exe" devices | sed 's/List of devices attached//g'| awk '{
-    if ($1 != "") print $1
-}')
-# create array
-mapfile -t device_list < <(printf "%s" "$adb_output")
-
-# get device number
-device_count=${#device_list[@]}
-case $device_count in
-    "0")
-        echo_error "No device found"
-        ;;
-    "1")
-        device=${device_list[0]}
-        ;;
-    *)
-        echo_step "Please select your device:"
-        device=$(select_device device_list)
-        ;;
+case "$1" in
+"" | "-h"| "--help")
+    echo_usage
+    ;;
+"-d"| "--download")
+    start_download
+    ;;
+"-i"| "--install")
+    check_install
+    youtube_apk=$(check_apk "$2")
+    adb_device
+    start_revanced "$youtube_apk" "$adb_device"
+    ;;
+*)  
+    start_download
+    check_install
+    youtube_apk=$(check_apk "$1")
+    adb_device
+    start_revanced "$youtube_apk" "$adb_device"
+    ;;
 esac
-
-echo_step "Check device: $device"
-"$adb_exe" shell exit
-
-#--------------------------------------
-# revanced
-#--------------------------------------
-
-echo_step "Install revanced"
-java -jar "$revanced_cli" --clean --install \
-    -b "$revanced_patches" \
-    -m "$revanced_integration" \
-    --temp-dir "$TEMP_DIR/cache" \
-    --apk "$youtube_apk" \
-    --out "$revanced_output" \
-    --deploy-on "$device"  \
-    -i "microg-support" \
-    -i "general-ads" \
-    -i "video-ads" \
-    -i "disable-shorts-button" \
-    -i "disable-create-button" \
-    -i "hide-cast-button" \
-    -i "minimized-playback" \
-    -i "old-quality-layout" \
-    -i "reels_player_overlay" \
-    -i "custom-branding"
