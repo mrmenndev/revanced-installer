@@ -69,14 +69,15 @@ echo_step(){
     fi
     printf "%s\n" "----------"
 }
+
 echo_error(){
-    printf "%s\n" "----------"
-    printf "\033[1;31m%s\033[0m%s\n" "==> Error " "$1"
+    printf "\033[1;31m%s\033[0m\n" "----------Error----------"  >&2
+    printf "%s\n" "$1"  >&2
     if [ "$2" != "" ];then
-        printf "%s\n" "$2"
+        printf "%s\n" "$2"  >&2
     fi
     if [ "$3" != "" ];then
-        printf "%s\n" "$3"
+        printf "%s\n" "$3"  >&2
     fi
     exit 1
 }
