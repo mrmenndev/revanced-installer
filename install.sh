@@ -52,11 +52,12 @@ esac
 
 echo_usage() {
     printf "Usage:\n"
-    printf "    ./install.sh [apk]: Download and install ReVanced\n"
+    printf "    ./install.sh [apk] : Download and install ReVanced\n"
     printf "Flags:\n"
-    printf " -i | --install  [apk]: Only install ReVanced (Files need to be downloaded first)\n"
-    printf " -d | --download      : Only download required files\n"
-    printf " -h | --help          : Show command usage\n"
+    printf " -i | --install  [apk] : Only install ReVanced\n"
+    printf "                         (Files need to be downloaded first)\n"
+    printf " -d | --download       : Only download required files\n"
+    printf " -h | --help           : Show command usage\n"
     exit 0
 }
 
