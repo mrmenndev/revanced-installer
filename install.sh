@@ -37,7 +37,7 @@ case "$platform" in
     ADB_URL='https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
     ;;
 *)
-    echo_error "Platform '$platform' not supported"
+    echo_error "Platform '$platform' is not supported"
     ;;
 esac
 
@@ -190,7 +190,7 @@ fetch_device(){
     "$ADB_EXE" kill-server || true
     "$ADB_EXE" start-server
 
-    echo_step "Find adb device"
+    echo_step "Find device"
      # list devices
     adb_output=$("$ADB_EXE" devices | sed 's/List of devices attached//g'| awk '{
         if ($1 != "") print $1
@@ -201,13 +201,15 @@ fetch_device(){
     device_count=${#device_list[@]}
     case $device_count in
         0)
-            echo_error "No device found"
+            echo_error "No device found" \
+                "Please connect your device and run:" \
+                "./install.sh --install $youtube_apk"
             ;;
         1)
             device=${device_list[0]}
             ;;
         *)
-            echo_step "Please select your device"
+            echo_step "Please select a device"
             device=$(select_device device_list)
             ;;
     esac
