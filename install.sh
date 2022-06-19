@@ -15,8 +15,8 @@ REVANCED_PATCHES_URL=\
 REVANCED_CLI_URL=\
 "https://github.com/revanced/revanced-cli/releases/download/v1.4.2/revanced-cli-1.4.2-all.jar"
 
-REVANCED_PATCHES="$TEMP_DIR/revanced-patches.jar"
 REVANCED_INTEGRATION="$TEMP_DIR/app-release-unsigned.apk"
+REVANCED_PATCHES="$TEMP_DIR/revanced-patches.jar"
 REVANCED_CLI="$TEMP_DIR/revanced-cli-all.jar"
 REVANCED_OUTPUT="$TEMP_DIR/revanced.apk"
 
@@ -30,11 +30,11 @@ adb_device=""
 platform=$(uname -s)
 
 case "$platform" in
-Darwin)
-    ADB_URL="https://dl.google.com/android/repository/platform-tools-latest-darwin.zip"
+"Darwin")
+    ADB_URL='https://dl.google.com/android/repository/platform-tools-latest-darwin.zip'
     ;;
-Linux)
-    ADB_URL="https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
+"Linux")
+    ADB_URL='https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
     ;;
 *)
     echo_error "Platform '$platform' not supported"
@@ -180,7 +180,7 @@ check_install(){
     check_file "$REVANCED_CLI"
 }
 
-adb_device(){
+fetch_device(){
     local adb_output
     local device_list
     local device_count
@@ -195,7 +195,7 @@ adb_device(){
     adb_output=$("$ADB_EXE" devices | sed 's/List of devices attached//g'| awk '{
         if ($1 != "") print $1
     }')
-    # create device array list
+    # create device list
     mapfile -t device_list < <(printf "%s" "$adb_output")
     # get device number
     device_count=${#device_list[@]}
@@ -261,7 +261,7 @@ case "$1" in
 "-i" | "--install")
     youtube_apk=$(check_apk "$2")
     check_install
-    adb_device
+    fetch_device
     start_revanced "$youtube_apk" "$adb_device"
     ;;
 -*)
@@ -271,7 +271,7 @@ case "$1" in
     youtube_apk=$(check_apk "$1")
     start_download
     check_install
-    adb_device
+    fetch_device
     start_revanced "$youtube_apk" "$adb_device"
     ;;
 esac
