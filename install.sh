@@ -11,7 +11,7 @@ TEMP_DIR="/tmp/revanced-installer"
 REVANCED_INTEGRATION_URL=\
 "https://github.com/revanced/revanced-integrations/releases/download/v0.10.0/app-release-unsigned.apk"
 REVANCED_PATCHES_URL=\
-"https://github.com/revanced/revanced-patches/releases/download/v1.6.3/revanced-patches-1.6.3.jar"
+"https://github.com/revanced/revanced-patches/releases/download/v1.6.4/revanced-patches-1.6.4.jar"
 REVANCED_CLI_URL=\
 "https://github.com/revanced/revanced-cli/releases/download/v1.4.2/revanced-cli-1.4.2-all.jar"
 
@@ -31,10 +31,10 @@ platform=$(uname -s)
 
 case "$platform" in
 "Darwin")
-    ADB_URL='https://dl.google.com/android/repository/platform-tools-latest-darwin.zip'
+    ADB_URL="https://dl.google.com/android/repository/platform-tools-latest-darwin.zip"
     ;;
 "Linux")
-    ADB_URL='https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
+    ADB_URL="https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
     ;;
 *)
     echo_error "Platform '$platform' is not supported"
