@@ -1,14 +1,12 @@
 # Revanced Installer
 
-A simpler way to install the [ReVanced](https://github.com/revanced/) app.
+A script to install the [ReVanced](https://github.com/revanced/) app.
 
 Tested on `Linux` and on `MacOS`
 
----
+# Prerequisites
 
-## Prerequisites
-
--   `YouTube 17.22.36` as **apk** (not as **bundle**). Can be found on [apkmirror.com](https://www.apkmirror.com/apk/google-inc/youtube/youtube-17-22-36-release/youtube-17-22-36-2-android-apk-download/)
+-   `YouTube 17.23.35` as **apk** (not as **bundle**). Can be found on [apkmirror.com](https://www.apkmirror.com/apk/google-inc/youtube/youtube-17-23-35-release/youtube-17-23-35-2-android-apk-download/)
 
 -   USB Debugging enabled on your phone
 
