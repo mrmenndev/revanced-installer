@@ -11,7 +11,7 @@ TEMP_DIR="/tmp/revanced-installer"
 REVANCED_INTEGRATION_URL=\
 "https://github.com/revanced/revanced-integrations/releases/download/v0.10.0/app-release-unsigned.apk"
 REVANCED_PATCHES_URL=\
-"https://github.com/revanced/revanced-patches/releases/download/v1.6.4/revanced-patches-1.6.4.jar"
+"https://github.com/revanced/revanced-patches/releases/download/v1.8.1/revanced-patches-1.8.1.jar"
 REVANCED_CLI_URL=\
 "https://github.com/revanced/revanced-cli/releases/download/v1.4.2/revanced-cli-1.4.2-all.jar"
 
@@ -234,6 +234,8 @@ start_revanced(){
         --apk "$apk" \
         --deploy-on "$device"  \
         -i "microg-support" \
+        -i "custom-branding" \
+        -i "premium-heading"\
         -i "general-ads" \
         -i "video-ads" \
         -i "disable-shorts-button" \
@@ -242,7 +244,7 @@ start_revanced(){
         -i "minimized-playback" \
         -i "old-quality-layout" \
         -i "reels_player_overlay" \
-        -i "custom-branding"
+        -i "disable-fullscreen-panels"
 }
 
 #======================================
