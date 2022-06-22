@@ -9,11 +9,11 @@ TEMP_DIR="/tmp/revanced-installer"
 #--------------------------------------
 
 REVANCED_INTEGRATION_URL=\
-"https://github.com/revanced/revanced-integrations/releases/download/v0.10.0/app-release-unsigned.apk"
+"https://github.com/revanced/revanced-integrations/releases/download/v0.11.0/app-release-unsigned.apk"
 REVANCED_PATCHES_URL=\
-"https://github.com/revanced/revanced-patches/releases/download/v1.8.1/revanced-patches-1.8.1.jar"
+"https://github.com/revanced/revanced-patches/releases/download/v1.9.1/revanced-patches-1.9.1.jar"
 REVANCED_CLI_URL=\
-"https://github.com/revanced/revanced-cli/releases/download/v1.4.2/revanced-cli-1.4.2-all.jar"
+"https://github.com/revanced/revanced-cli/releases/download/v1.7.0/revanced-cli-1.7.0-all.jar"
 
 REVANCED_INTEGRATION="$TEMP_DIR/app-release-unsigned.apk"
 REVANCED_PATCHES="$TEMP_DIR/revanced-patches.jar"
@@ -226,25 +226,15 @@ start_revanced(){
     local device="$2"
     
     echo_step "Install revanced"
-    java -jar "$REVANCED_CLI" --clean --install \
+    java -jar "$REVANCED_CLI" --clean \
         -b "$REVANCED_PATCHES" \
         -m "$REVANCED_INTEGRATION" \
         --out "$REVANCED_OUTPUT" \
         --temp-dir "$TEMP_DIR/cache" \
         --apk "$apk" \
         --deploy-on "$device"  \
-        -i "microg-support" \
-        -i "custom-branding" \
-        -i "premium-heading"\
-        -i "general-ads" \
-        -i "video-ads" \
-        -i "disable-shorts-button" \
-        -i "disable-create-button" \
-        -i "hide-cast-button" \
-        -i "minimized-playback" \
-        -i "old-quality-layout" \
-        -i "reels_player_overlay" \
-        -i "disable-fullscreen-panels"
+        -e "amoled" \
+        -e "premium-heading"
 }
 
 #======================================
