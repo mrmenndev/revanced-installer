@@ -9,16 +9,17 @@ TEMP_DIR="/tmp/revanced-installer"
 #--------------------------------------
 
 REVANCED_INTEGRATION_URL=\
-"https://github.com/revanced/revanced-integrations/releases/download/v0.11.0/app-release-unsigned.apk"
+"https://github.com/revanced/revanced-integrations/releases/download/v0.13.0/app-release-unsigned.apk"
 REVANCED_PATCHES_URL=\
-"https://github.com/revanced/revanced-patches/releases/download/v1.9.1/revanced-patches-1.9.1.jar"
+"https://github.com/revanced/revanced-patches/releases/download/v1.10.2/revanced-patches-1.10.2.jar"
 REVANCED_CLI_URL=\
-"https://github.com/revanced/revanced-cli/releases/download/v1.7.0/revanced-cli-1.7.0-all.jar"
+"https://github.com/revanced/revanced-cli/releases/download/v1.11.0/revanced-cli-1.11.0-all.jar"
 
 REVANCED_INTEGRATION="$TEMP_DIR/app-release-unsigned.apk"
 REVANCED_PATCHES="$TEMP_DIR/revanced-patches.jar"
 REVANCED_CLI="$TEMP_DIR/revanced-cli-all.jar"
 REVANCED_OUTPUT="$TEMP_DIR/revanced.apk"
+REVANCED_KEY="$TEMP_DIR/revanced.keystore"
 
 #--------------------------------------
 # adb
@@ -227,13 +228,15 @@ start_revanced(){
     
     echo_step "Install revanced"
     java -jar "$REVANCED_CLI" --clean \
-        -b "$REVANCED_PATCHES" \
-        -m "$REVANCED_INTEGRATION" \
-        --out "$REVANCED_OUTPUT" \
         --temp-dir "$TEMP_DIR/cache" \
+        --bundles "$REVANCED_PATCHES" \
+        --merge "$REVANCED_INTEGRATION" \
+        --out "$REVANCED_OUTPUT" \
+        --keystore "$REVANCED_KEY" \
         --apk "$apk" \
         --deploy-on "$device"  \
         -e "amoled" \
+        -e "seekbar-tapping" \
         -e "premium-heading"
 }
 
