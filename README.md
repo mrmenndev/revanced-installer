@@ -6,7 +6,7 @@ Tested on `Linux` and on `MacOS`
 
 # Prerequisites
 
--   `YouTube 17.23.35` as **apk** (not as **bundle**). Can be found on [apkmirror.com](https://www.apkmirror.com/apk/google-inc/youtube/youtube-17-23-35-release/youtube-17-23-35-2-android-apk-download/)
+-   `YouTube 17.24.34` as **apk** (not as **bundle**). Can be found on [apkmirror.com](https://www.apkmirror.com/apk/google-inc/youtube/youtube-17-24-34-release/youtube-17-24-34-2-android-apk-download/)
 
 -   USB Debugging enabled on your phone
 
