@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-VERSION="0.2.3"
+VERSION="0.2.4"
 TEMP_DIR="/tmp/revanced-installer"
 
 #--------------------------------------
