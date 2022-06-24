@@ -12,8 +12,6 @@ Tested on `Linux` and on `MacOS`
 
 -   `JDK 17` or higher. Recommend to download and install [temurin](https://adoptium.net/de/temurin/releases)
 
--   `wget` if not preinstalled
-
 # Linux and MacOS
 
 ## Download
@@ -21,7 +19,7 @@ Tested on `Linux` and on `MacOS`
 1. Download `./install.sh`
 
 ```
-wget -N "https://raw.githubusercontent.com/mrmenndev/revanced-installer/master/install.sh"
+curl -L "https://raw.githubusercontent.com/mrmenndev/revanced-installer/master/install.sh" > install.sh
 ```
 
 2. Make script executable
