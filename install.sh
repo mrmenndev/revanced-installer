@@ -123,7 +123,7 @@ download(){
     local url="$1"
     local file="$2"
     
-    wget --no-verbose --show-progress -O "$file" "$url" 
+    curl --location --output "$file" "$url" 
 }
 
 # input + return func
