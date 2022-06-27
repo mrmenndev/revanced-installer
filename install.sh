@@ -9,11 +9,11 @@ TEMP_DIR="/tmp/revanced-installer"
 #--------------------------------------
 
 REVANCED_INTEGRATION_URL=\
-"https://github.com/revanced/revanced-integrations/releases/download/v0.14.0/app-release-unsigned.apk"
+"https://github.com/revanced/revanced-integrations/releases/download/v0.15.0/app-release-unsigned.apk"
 REVANCED_PATCHES_URL=\
-"https://github.com/revanced/revanced-patches/releases/download/v1.10.4/revanced-patches-1.10.4.jar"
+"https://github.com/revanced/revanced-patches/releases/download/v2.0.1/revanced-patches-2.0.1.jar"
 REVANCED_CLI_URL=\
-"https://github.com/revanced/revanced-cli/releases/download/v1.11.0/revanced-cli-1.11.0-all.jar"
+"https://github.com/revanced/revanced-cli/releases/download/v2.0.1/revanced-cli-2.0.1-all.jar"
 
 REVANCED_INTEGRATION="$TEMP_DIR/app-release-unsigned.apk"
 REVANCED_PATCHES="$TEMP_DIR/revanced-patches.jar"
