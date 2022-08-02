@@ -9,11 +9,11 @@ TEMP_DIR="/tmp/revanced-installer"
 #--------------------------------------
 
 REVANCED_INTEGRATION_URL=\
-"https://github.com/revanced/revanced-integrations/releases/download/v0.28.0/app-release-unsigned.apk"
+"https://github.com/revanced/revanced-integrations/releases/download/v0.30.4/app-release-unsigned.apk"
 REVANCED_PATCHES_URL=\
-"https://github.com/revanced/revanced-patches/releases/download/v2.22.1/revanced-patches-2.22.1.jar"
+"https://github.com/revanced/revanced-patches/releases/download/v2.28.1/revanced-patches-2.28.1.jar"
 REVANCED_CLI_URL=\
-"https://github.com/revanced/revanced-cli/releases/download/v2.7.1/revanced-cli-2.7.1-all.jar"
+"https://github.com/revanced/revanced-cli/releases/download/v2.8.0/revanced-cli-2.8.0-all.jar"
 
 REVANCED_INTEGRATION="$TEMP_DIR/app-release-unsigned.apk"
 REVANCED_PATCHES="$TEMP_DIR/revanced-patches.jar"
@@ -236,10 +236,7 @@ start_revanced(){
         --apk "$apk" \
         --deploy-on "$device"  \
         -e "amoled" \
-        -e "seekbar-tapping" \
-        -e "premium-heading" \
-        -i "enable-wide-searchbar" \
-        -i "force-vp9-codec"
+        -e "premium-heading"
 }
 
 #======================================
