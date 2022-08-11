@@ -55,7 +55,3 @@ Example:
 `-h` or `--help`
 
 -   Show command usage
-
-# Windows
-
-coming soon
