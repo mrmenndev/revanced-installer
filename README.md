@@ -6,7 +6,7 @@ Tested on `Linux` and on `MacOS`
 
 # Prerequisites
 
--   `YouTube 17.29.34` as **apk** (not as **bundle**). Can be found on [apkmirror.com](https://www.apkmirror.com/apk/google-inc/youtube/youtube-17-29-34-release/youtube-17-29-34-android-apk-download/)
+-   `YouTube 17.33.42` as **apk** (not as **bundle**). Can be found on [apkmirror.com](https://www.apkmirror.com/apk/google-inc/youtube/youtube-17-33-42-release/youtube-17-33-42-2-android-apk-download/)
 
 -   USB Debugging enabled on your phone
 
@@ -35,7 +35,7 @@ Run `./install.sh [youtube apk]` to download all required files and install ReVa
 Example:
 
 ```
-./install.sh $HOME/Downloads/youtube_17.29.34.apk
+./install.sh $HOME/Downloads/youtube_17.33.42.apk
 ```
 
 ## Options
